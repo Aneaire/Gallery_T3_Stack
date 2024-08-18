@@ -10,6 +10,7 @@ export const getImages = async () => {
 
   const images = await db.query.images.findMany({
     where: (model, { eq }) => eq(model.userId, user.userId),
+    orderBy: (model, { desc }) => desc(model.createdAt),
   });
 
   if (!images) {
