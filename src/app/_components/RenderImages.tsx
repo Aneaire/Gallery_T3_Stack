@@ -1,15 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getImages } from "~/server/queries";
+import OnImageDrag from "./OnImageDrag";
 
 const RenderImages = async () => {
   const images = await getImages();
 
   return images.map((image) => (
-    <div
-      key={image.id}
-      className="peer-[card] relative aspect-square w-40 flex-col gap-2 hover:scale-105"
-    >
+    <OnImageDrag id={image.id} url={image.url}>
       <Link className="cursor-pointer" href={`/img/${image.id}`}>
         <Image
           sizes="200px"
@@ -22,7 +20,7 @@ const RenderImages = async () => {
           {image.name}
         </p>
       </Link>
-    </div>
+    </OnImageDrag>
   ));
 };
 
