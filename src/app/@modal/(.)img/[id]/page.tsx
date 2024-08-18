@@ -1,4 +1,5 @@
 import Image from "next/image";
+import CopyBtn from "~/components/common/CopyBtn";
 import { getImage } from "~/server/queries";
 import Modal from "./modal";
 
@@ -10,16 +11,16 @@ export default async function Page({ params }: { params: { id: string } }) {
   return (
     <Modal>
       <div className="h-screen w-screen text-white">
-        <div className="relative mx-auto mt-5 h-3/6 w-full lg:h-4/6 lg:w-1/2">
-          <Image
-            objectFit="contain"
-            fill
-            sizes="30vw"
-            src={image.url}
-            alt={image.name}
-          />
+        <div className="my-auto flex h-full w-full flex-col items-center justify-center">
+          <div className="relative mx-auto h-2/6 w-full lg:w-1/2">
+            <Image src={image.url} alt={image.name} objectFit="contain" fill />
+          </div>
+          <p className="mt-5 text-center text-xl font-medium">{image.name}</p>
+          <div className="mx-auto mt-4 line-clamp-1 flex w-full justify-between rounded-lg bg-gray-800/50 px-2 py-1 backdrop-blur-md lg:w-2/6">
+            <span className="text-sm">{image.url}</span>
+            <CopyBtn imageUrl={image.url} />
+          </div>
         </div>
-        <p className="mt-5 text-center text-xl font-medium">{image.name}</p>
       </div>
     </Modal>
   );

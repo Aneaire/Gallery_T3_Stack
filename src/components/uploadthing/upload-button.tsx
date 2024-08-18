@@ -17,7 +17,6 @@ const useUploadThingInputProps = (...args: Input) => {
     const selectedFiles = Array.from(e.target.files);
     const result = await $ut.startUpload(selectedFiles);
 
-    console.log("uploaded files", result);
     // TODO: persist result in state maybe?
   };
 
@@ -37,11 +36,19 @@ export function UploadButton() {
     onUploadBegin() {
       toast("Uploading...", { id: "upload-begin", duration: 100000 });
     },
-    onClientUploadComplete() {
+    onClientUploadComplete(e) {
       toast("Upload complete!", { duration: 2000 });
       toast.dismiss("upload-begin");
-
-      router.refresh();
+      e[0] &&
+        navigator.clipboard.writeText(`${e[0].url} `).then(
+          () => console.log("copied to clipboard"),
+          (err) => console.error("copy to clipboard failed", err),
+        );
+      toast("Copied to clipboard!", {
+        duration: 2000,
+        style: { backgroundColor: "green" },
+      });
+      setTimeout(() => router.refresh(), 1000);
     },
     onUploadError() {
       toast("Upload failed!", { style: { backgroundColor: "red" } });
